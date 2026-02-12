@@ -1,101 +1,95 @@
 :root {
     --bg-color: #ffffff;
-    --accent-gradient: linear-gradient(135deg, #007aff 0%, #00c6ff 100%); [cite_start]/* Apple Blue to Samsung Cyan [cite: 4] */
-    [cite_start]--samsung-shadow: 0 20px 40px rgba(0,0,0,0.08); [cite: 4]
-    [cite_start]--apple-blur: blur(25px); [cite: 5]
+    --accent-gradient: linear-gradient(135deg, #007aff 0%, #00c6ff 100%);
+    --samsung-shadow: 0 20px 40px rgba(0,0,0,0.08);
+    --apple-blur: blur(25px);
 }
 
 body {
-    [cite_start]font-family: 'Assistant', sans-serif; [cite: 5]
-    [cite_start]background-color: var(--bg-color); [cite: 6]
-    [cite_start]color: #1d1d1f; [cite: 6]
-    [cite_start]overflow-x: hidden; [cite: 6]
-    [cite_start]letter-spacing: -0.01em; [cite: 6]
+    font-family: 'Assistant', sans-serif;
+    background-color: var(--bg-color);
+    color: #1d1d1f;
+    overflow-x: hidden;
+    letter-spacing: -0.01em;
 }
 
-/* Glassmorphism Header */
 header {
-    [cite_start]background: rgba(255, 255, 255, 0.75); [cite: 6]
-    [cite_start]backdrop-filter: var(--apple-blur); [cite: 7]
-    [cite_start]-webkit-backdrop-filter: var(--apple-blur); [cite: 7]
-    [cite_start]border-bottom: 1px solid rgba(0,0,0,0.05); [cite: 7]
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: var(--apple-blur);
+    -webkit-backdrop-filter: var(--apple-blur);
+    border-bottom: 1px solid rgba(0,0,0,0.05);
 }
 
-/* Hybrid Product Cards */
 .product-card {
-    [cite_start]opacity: 0; [cite: 7]
-    [cite_start]transform: scale(0.9) translateY(40px); [cite: 8]
-    [cite_start]transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1); [cite: 8]
-    border-radius: 32px; [cite_start]/* Extra rounded like Samsung One UI [cite: 8, 9] */
+    opacity: 0;
+    transform: scale(0.9) translateY(40px);
+    transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);
+    border-radius: 32px;
 }
 
 .product-card.visible {
-    [cite_start]opacity: 1; [cite: 9]
-    [cite_start]transform: scale(1) translateY(0); [cite: 10]
+    opacity: 1;
+    transform: scale(1) translateY(0);
 }
 
 .product-card:hover {
-    [cite_start]transform: translateY(-10px); [cite: 10]
-    [cite_start]box-shadow: var(--samsung-shadow); [cite: 11]
+    transform: translateY(-10px);
+    box-shadow: var(--samsung-shadow);
 }
 
 .img-container {
-    [cite_start]border-radius: 24px; [cite: 11]
-    [cite_start]overflow: hidden; [cite: 12]
-    [cite_start]position: relative; [cite: 12]
+    border-radius: 24px;
+    overflow: hidden;
+    position: relative;
 }
 
 .img-container img {
-    [cite_start]transition: transform 1.2s cubic-bezier(0.19, 1, 0.22, 1); [cite: 12, 13]
+    transition: transform 1.2s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 .product-card:hover img {
-    [cite_start]transform: scale(1.1); [cite: 14]
+    transform: scale(1.1);
 }
 
-/* Samsung Style Gradient Button */
 .action-btn {
-    [cite_start]background: var(--accent-gradient); [cite: 14]
-    [cite_start]transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); [cite: 15]
-    [cite_start]position: relative; [cite: 15]
-    [cite_start]overflow: hidden; [cite: 15]
+    background: var(--accent-gradient);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
 }
 
 .action-btn::after {
-    [cite_start]content: ''; [cite: 16]
-    [cite_start]position: absolute; [cite: 17]
-    [cite_start]top: 0; left: 0; width: 100%; height: 100%; [cite: 17]
-    [cite_start]background: rgba(255,255,255,0.2); [cite: 17]
-    [cite_start]opacity: 0; [cite: 17]
-    [cite_start]transition: opacity 0.3s; [cite: 17]
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(255,255,255,0.2);
+    opacity: 0;
+    transition: opacity 0.3s;
 }
 
 .action-btn:hover::after {
-    [cite_start]opacity: 1; [cite: 18]
+    opacity: 1;
 }
 
 .action-btn:active {
-    transform: scale(0.92); [cite_start]/* Haptic feel [cite: 19, 20] */
+    transform: scale(0.92);
 }
 
-/* Cart Drawer RTL */
 .cart-drawer {
-    [cite_start]transition: transform 0.6s cubic-bezier(0.32, 0.72, 0, 1); [cite: 20]
-    [cite_start]border-top-right-radius: 0px; [cite: 21]
-    [cite_start]border-bottom-right-radius: 0px; [cite: 22]
-    [cite_start]border-top-left-radius: 40px; [cite: 22]
-    [cite_start]border-bottom-left-radius: 40px; [cite: 22]
-    [cite_start]transform: translateX(100%); [cite: 22]
+    transition: transform 0.6s cubic-bezier(0.32, 0.72, 0, 1);
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-top-left-radius: 40px;
+    border-bottom-left-radius: 40px;
+    transform: translateX(100%);
 }
 
-/* Scrollbar */
-[cite_start]::-webkit-scrollbar { width: 8px; [cite: 22, 23] }
-[cite_start]::-webkit-scrollbar-track { background: #f1f1f1; [cite: 24] }
-[cite_start]::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; [cite: 25] }
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #f1f1f1; }
+::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
 
-/* Text Gradient */
 .reveal-text {
-    [cite_start]background: linear-gradient(to bottom, #1d1d1f 0%, #86868b 100%); [cite: 25, 26]
-    [cite_start]-webkit-background-clip: text; [cite: 26]
-    [cite_start]-webkit-text-fill-color: transparent; [cite: 26]
+    background: linear-gradient(to bottom, #1d1d1f 0%, #86868b 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
