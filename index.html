@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GALAXY FASHION | הבוטיק ההיברידי</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Assistant:wght@200;300;400;600;700&display=swap');
+        
+        :root {
+            --bg-color: #ffffff;
+            --accent-gradient: linear-gradient(135deg, #007aff 0%, #00c6ff 100%); /* Apple Blue to Samsung Cyan */
+            --samsung-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            --apple-blur: blur(25px);
+        }
+
+        body {
+            font-family: 'Assistant', sans-serif;
+            background-color: var(--bg-color);
+            color: #1d1d1f;
+            overflow-x: hidden;
+            letter-spacing: -0.01em;
+        }
+
+        /* Glassmorphism Header with Samsung curve */
+        header {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: var(--apple-blur);
+            -webkit-backdrop-filter: var(--apple-blur);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        /* Hybrid Product Cards */
+        .product-card {
+            opacity: 0;
+            transform: scale(0.9) translateY(40px);
+            transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);
+            border-radius: 32px; /* Extra rounded like Samsung One UI */
+        }
+
+        .product-card.visible {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--samsung-shadow);
+        }
+
+        /* Image interaction */
+        .img-container {
+            border-radius: 24px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .img-container img {
+            transition: transform 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .product-card:hover img {
+            transform: scale(1.1);
+        }
+
+        /* Samsung Style Gradient Button */
+        .action-btn {
+            background: var(--accent-gradient);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-btn::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255,255,255,0.2);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .action-btn:hover::after {
+            opacity: 1;
+        }
+
+        .action-btn:active {
+            transform: scale(0.92); /* Haptic feel */
+        }
+
+        /* Drawer Overlay */
+        .cart-drawer {
+            transition: transform 0.6s cubic-bezier(0.32, 0.72, 0, 1);
+            /* תיקון סופי: הפינות המעוגלות בצד שמאל עבור RTL כשהמגירה בימין */
+            border-top-right-radius: 0px;
+            border-bottom-right-radius: 0px;
+            border-top-left-radius: 40px;
+            border-bottom-left-radius: 40px;
+            transform: translateX(100%); /* ב-RTL, 100% מוציא את זה ימינה מחוץ למסך */
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
+
+        /* Animation for text */
+        .reveal-text {
+            background: linear-gradient(to bottom, #1d1d1f 0%, #86868b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="fixed w-full top-0 z-[100]">
+        <div class="container mx-auto px-8 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-black to-blue-600">
+                GALAXY<span class="font-light">FASHION</span>
+            </div>
+            
+            <nav class="hidden md:flex bg-gray-100/50 p-1 rounded-full px-6 space-x-8 space-x-reverse text-sm font-semibold">
+                <button onclick="filterCategory('all')" class="hover:text-blue-600 transition py-2 px-3">הכל</button>
+                <button onclick="filterCategory('men')" class="hover:text-blue-600 transition py-2 px-3">גברים</button>
+                <button onclick="filterCategory('women')" class="hover:text-blue-600 transition py-2 px-3">נשים</button>
+                <button onclick="filterCategory('kids')" class="hover:text-blue-600 transition py-2 px-3">ילדים</button>
+                <button onclick="filterCategory('accessories')" class="hover:text-blue-600 transition py-2 px-3">אביזרים</button>
+            </nav>
+
+            <div class="flex items-center gap-4">
+                <button id="cart-btn" class="w-12 h-12 flex items-center justify-center bg-white rounded-full shadow-sm border border-gray-100 relative group">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                    <span id="cart-count" class="absolute top-0 right-0 bg-blue-600 text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full border-2 border-white">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="pt-44 pb-24 overflow-hidden">
+        <div class="container mx-auto px-6 text-center">
+            <div class="inline-block px-4 py-1.5 mb-6 text-xs font-bold tracking-widest text-blue-600 bg-blue-50 rounded-full">
+                FUTURE OF STYLE
+            </div>
+            <h1 class="text-7xl md:text-9xl font-bold tracking-tighter mb-8 reveal-text">
+                העתיד נלבש <br>עכשיו.
+            </h1>
+            <p class="text-xl text-gray-500 max-w-2xl mx-auto mb-12 leading-relaxed font-light">
+                שילוב מושלם בין טכנולוגיית עיצוב לבין איכות בלתי מתפשרת לכל המשפחה. 
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-6">
+                <button class="action-btn text-white px-12 py-5 rounded-full font-bold text-lg shadow-2xl shadow-blue-200">
+                    לקנייה מיידית
+                </button>
+                <button class="bg-white border border-gray-200 text-black px-12 py-5 rounded-full font-bold text-lg hover:bg-gray-50 transition">
+                    לסרטון הקולקציה
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Grid -->
+    <main class="container mx-auto px-8 pb-32">
+        <div class="flex flex-col md:flex-row items-center justify-between mb-20 gap-8">
+            <h2 id="collection-title" class="text-4xl font-bold tracking-tight">הנבחרים שלנו</h2>
+            <div class="flex items-center gap-4">
+                <span class="text-sm font-semibold text-gray-400">סנן לפי מחיר:</span>
+                <select id="sort-select" class="bg-gray-100 rounded-full px-4 py-2 text-sm font-bold outline-none cursor-pointer" onchange="sortProducts()">
+                    <option value="default">ברירת מחדל</option>
+                    <option value="low-high">מהזול ליקר</option>
+                    <option value="high-low">מהיקר לזול</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+            <!-- Dynamic Content -->
+        </div>
+    </main>
+
+    <!-- Cart Drawer (Samsung One UI Inspired) -->
+    <div id="cart-overlay" class="fixed inset-0 bg-black/40 backdrop-blur-md z-[110] hidden opacity-0 transition-opacity duration-500"></div>
+    <div id="cart-drawer" class="cart-drawer fixed top-0 right-0 h-full w-full max-w-md bg-white z-[120] shadow-2xl flex flex-col">
+        <div class="p-10 flex justify-between items-center">
+            <h2 class="text-3xl font-bold">הסל שלך</h2>
+            <button id="close-cart" class="w-10 h-10 flex items-center justify-center bg-gray-100 rounded-full hover:rotate-90 transition-transform duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </button>
+        </div>
+        
+        <div id="cart-items" class="flex-1 overflow-y-auto px-10 space-y-8">
+            <!-- Items -->
+        </div>
+
+        <div class="p-10 bg-gray-50/50 rounded-t-[40px]">
+            <div class="flex justify-between items-center mb-8">
+                <span class="text-gray-400 font-semibold">סה"כ לתשלום</span>
+                <span id="cart-total" class="text-3xl font-black text-blue-600">₪0.00</span>
+            </div>
+            <button class="action-btn w-full text-white py-6 rounded-[24px] font-bold text-xl shadow-xl shadow-blue-100" onclick="checkout()">
+                שלם עכשיו
+            </button>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div id="toast" class="fixed top-10 left-1/2 -translate-x-1/2 bg-white/90 backdrop-blur border border-gray-100 px-10 py-4 rounded-3xl shadow-2xl opacity-0 -translate-y-20 transition-all duration-700 z-[200] flex items-center gap-4">
+        <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <span class="font-bold">המוצר נוסף בהצלחה</span>
+    </div>
+
+    <script>
+        const products = [
+            // גברים
+            { id: 1, name: "Galaxy Coat v1", price: 1250, category: "men", image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=600" },
+            { id: 4, name: "Infinite Knit", price: 420, category: "men", image: "https://images.unsplash.com/photo-1611312449408-fcece27cdbb7?q=80&w=600" },
+            { id: 8, name: "Nova Linen Shirt", price: 299, category: "men", image: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?q=80&w=600" },
+            { id: 9, name: "Onyx Bomber Jacket", price: 780, category: "men", image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?q=80&w=600" },
+
+            // נשים
+            { id: 2, name: "Stellar Silk Dress", price: 2100, category: "women", image: "https://images.unsplash.com/photo-1539008835279-434676527cc3?q=80&w=600" },
+            { id: 5, name: "Nebula Skirt", price: 380, category: "women", image: "https://images.unsplash.com/photo-1583337130417-3346a1be7dee?q=80&w=600" },
+            { id: 7, name: "Logic Denim", price: 540, category: "women", image: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=600" },
+
+            // ילדים
+            { id: 10, name: "Mini Star Hoodie", price: 180, category: "kids", image: "https://images.unsplash.com/photo-1519702331535-612668971f4b?q=80&w=600" },
+            { id: 11, name: "Cosmic Cargo Kids", price: 240, category: "kids", image: "https://images.unsplash.com/photo-1533512930330-4ac257c86793?q=80&w=600" },
+            { id: 12, name: "Solar Yellow Raincoat", price: 320, category: "kids", image: "https://images.unsplash.com/photo-1503919545889-aef636e10ad4?q=80&w=600" },
+            { id: 13, name: "Lunar Sparkle Set", price: 210, category: "kids", image: "https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?q=80&w=600" },
+
+            // אביזרים
+            { id: 3, name: "Cyber Leather Bag", price: 850, category: "accessories", image: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?q=80&w=600" },
+            { id: 6, name: "Ultra Vision Shades", price: 990, category: "accessories", image: "https://images.unsplash.com/photo-1511499767350-a1590fdb2863?q=80&w=600" }
+        ];
+
+        let cart = [];
+        let filteredProducts = [...products];
+        let currentCategory = 'all';
+
+        function renderProducts() {
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = filteredProducts.map((p, i) => `
+                <div class="product-card" style="transition-delay: ${i * 80}ms">
+                    <div class="img-container aspect-[4/5] bg-gray-50">
+                        <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 hover:opacity-100 transition-opacity flex items-end p-6">
+                            <button onclick="addToCart(${p.id})" class="action-btn w-full py-4 rounded-2xl text-white font-bold text-sm">
+                                הוספה מהירה +
+                            </button>
+                        </div>
+                    </div>
+                    <div class="mt-6 flex justify-between items-center">
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-900">${p.name}</h3>
+                            <p class="text-sm font-medium text-blue-500 mt-1">₪${p.price.toLocaleString()}</p>
+                        </div>
+                        <div class="px-2 py-1 rounded-full border border-gray-100 flex items-center justify-center text-[10px] font-bold text-gray-400 uppercase tracking-tighter">
+                            ${p.category}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            // Observer for scroll animation
+            const obs = new IntersectionObserver((es) => {
+                es.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.product-card').forEach(c => obs.observe(c));
+        }
+
+        function filterCategory(cat) {
+            currentCategory = cat;
+            filteredProducts = cat === 'all' ? [...products] : products.filter(p => p.category === cat);
+            
+            // Update Title
+            const titles = {
+                'all': 'הנבחרים שלנו',
+                'men': 'קולקציית גברים',
+                'women': 'קולקציית נשים',
+                'kids': 'קולקציית ילדים',
+                'accessories': 'אביזרים ומשלימים'
+            };
+            document.getElementById('collection-title').innerText = titles[cat] || titles['all'];
+            
+            renderProducts();
+            window.scrollTo({ top: document.querySelector('main').offsetTop - 100, behavior: 'smooth' });
+        }
+
+        function sortProducts() {
+            const v = document.getElementById('sort-select').value;
+            if (v === 'low-high') filteredProducts.sort((a,b) => a.price - b.price);
+            if (v === 'high-low') filteredProducts.sort((a,b) => b.price - a.price);
+            renderProducts();
+        }
+
+        function addToCart(id) {
+            const p = products.find(x => x.id === id);
+            const item = cart.find(x => x.id === id);
+            if(item) item.qty++; else cart.push({...p, qty: 1});
+            updateUI();
+            showToast();
+        }
+
+        function updateUI() {
+            const count = cart.reduce((s, i) => s + i.qty, 0);
+            const total = cart.reduce((s, i) => s + (i.price * i.qty), 0);
+            
+            document.getElementById('cart-count').innerText = count;
+            document.getElementById('cart-total').innerText = `₪${total.toLocaleString()}`;
+            
+            const container = document.getElementById('cart-items');
+            if (cart.length === 0) {
+                container.innerHTML = `<div class="text-center py-20 opacity-20"><svg class="mx-auto mb-4" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg><p>הסל ריק</p></div>`;
+            } else {
+                container.innerHTML = cart.map(i => `
+                    <div class="flex gap-6 items-center">
+                        <img src="${i.image}" class="w-24 h-24 object-cover rounded-[20px] shadow-sm">
+                        <div class="flex-1">
+                            <h4 class="font-bold">${i.name}</h4>
+                            <p class="text-sm text-gray-400">כמות: ${i.qty}</p>
+                            <p class="text-blue-600 font-bold mt-1">₪${(i.price * i.qty).toLocaleString()}</p>
+                        </div>
+                        <button onclick="removeFromCart(${i.id})" class="text-gray-300 hover:text-red-500 transition">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/></svg>
+                        </button>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function removeFromCart(id) {
+            cart = cart.filter(i => i.id !== id);
+            updateUI();
+        }
+
+        function toggleCart() {
+            const d = document.getElementById('cart-drawer');
+            const o = document.getElementById('cart-overlay');
+            if (d.style.transform === 'translateX(0px)') {
+                d.style.transform = 'translateX(100%)'; 
+                o.style.opacity = '0';
+                setTimeout(() => o.classList.add('hidden'), 500);
+            } else {
+                o.classList.remove('hidden');
+                setTimeout(() => o.style.opacity = '1', 10);
+                d.style.transform = 'translateX(0px)';
+            }
+        }
+
+        function showToast() {
+            const t = document.getElementById('toast');
+            t.style.opacity = '1';
+            t.style.transform = 'translate(-50%, 0)';
+            setTimeout(() => {
+                t.style.opacity = '0';
+                t.style.transform = 'translate(-50%, -100px)';
+            }, 2500);
+        }
+
+        function checkout() {
+            if (cart.length === 0) return;
+            alert("הזמנת ה-Galaxy Fashion שלך בדרך!");
+            cart = [];
+            updateUI();
+            toggleCart();
+        }
+
+        // Init
+        document.getElementById('cart-btn').onclick = toggleCart;
+        document.getElementById('close-cart').onclick = toggleCart;
+        document.getElementById('cart-overlay').onclick = toggleCart;
+        renderProducts();
+    </script>
+</body>
+</html>
