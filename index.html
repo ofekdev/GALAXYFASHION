@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GALAXY FASHION | [cite_start]הבוטיק ההיברידי [cite: 1, 2]</title>
+    <title>GALAXY FASHION | הבוטיק ההיברידי</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@200;300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
@@ -17,17 +17,17 @@
             </div>
             
             <nav class="hidden md:flex bg-gray-100/50 p-1 rounded-full px-6 space-x-8 space-x-reverse text-sm font-semibold">
-                [cite_start]<button onclick="filterCategory('all')" class="hover:text-blue-600 transition py-2 px-3">הכל [cite: 27]</button>
-                [cite_start]<button onclick="filterCategory('men')" class="hover:text-blue-600 transition py-2 px-3">גברים [cite: 27]</button>
-                [cite_start]<button onclick="filterCategory('women')" class="hover:text-blue-600 transition py-2 px-3">נשים [cite: 27]</button>
-                [cite_start]<button onclick="filterCategory('kids')" class="hover:text-blue-600 transition py-2 px-3">ילדים [cite: 28]</button>
-                [cite_start]<button onclick="filterCategory('accessories')" class="hover:text-blue-600 transition py-2 px-3">אביזרים [cite: 28]</button>
+                <button onclick="filterCategory('all')" class="hover:text-blue-600 transition py-2 px-3">הכל</button>
+                <button onclick="filterCategory('men')" class="hover:text-blue-600 transition py-2 px-3">גברים</button>
+                <button onclick="filterCategory('women')" class="hover:text-blue-600 transition py-2 px-3">נשים</button>
+                <button onclick="filterCategory('kids')" class="hover:text-blue-600 transition py-2 px-3">ילדים</button>
+                <button onclick="filterCategory('accessories')" class="hover:text-blue-600 transition py-2 px-3">אביזרים</button>
             </nav>
 
             <div class="flex items-center gap-4">
                 <button id="cart-btn" class="w-12 h-12 flex items-center justify-center bg-white rounded-full shadow-sm border border-gray-100 relative group">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-                    [cite_start]<span id="cart-count" class="absolute top-0 right-0 bg-blue-600 text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full border-2 border-white">0 [cite: 29]</span>
+                    <span id="cart-count" class="absolute top-0 right-0 bg-blue-600 text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full border-2 border-white">0</span>
                 </button>
             </div>
         </div>
@@ -36,20 +36,20 @@
     <section class="pt-44 pb-24 overflow-hidden">
         <div class="container mx-auto px-6 text-center">
             <div class="inline-block px-4 py-1.5 mb-6 text-xs font-bold tracking-widest text-blue-600 bg-blue-50 rounded-full">
-                [cite_start]FUTURE OF STYLE [cite: 30]
+                FUTURE OF STYLE
             </div>
             <h1 class="text-7xl md:text-9xl font-bold tracking-tighter mb-8 reveal-text">
-                [cite_start]העתיד נלבש <br>עכשיו. [cite: 31, 32]
+                העתיד נלבש <br>עכשיו.
             </h1>
             <p class="text-xl text-gray-500 max-w-2xl mx-auto mb-12 leading-relaxed font-light">
-                [cite_start]שילוב מושלם בין טכנולוגיית עיצוב לבין איכות בלתי מתפשרת לכל המשפחה. [cite: 33]
+                שילוב מושלם בין טכנולוגיית עיצוב לבין איכות בלתי מתפשרת לכל המשפחה.
             </p>
             <div class="flex flex-col sm:flex-row justify-center gap-6">
                 <button class="action-btn text-white px-12 py-5 rounded-full font-bold text-lg shadow-2xl shadow-blue-200">
-                    [cite_start]לקנייה מיידית [cite: 33]
+                    לקנייה מיידית
                 </button>
                 <button class="bg-white border border-gray-200 text-black px-12 py-5 rounded-full font-bold text-lg hover:bg-gray-50 transition">
-                    [cite_start]לסרטון הקולקציה [cite: 33, 34]
+                    לסרטון הקולקציה
                 </button>
             </div>
         </div>
@@ -57,13 +57,13 @@
 
     <main class="container mx-auto px-8 pb-32">
         <div class="flex flex-col md:flex-row items-center justify-between mb-20 gap-8">
-            [cite_start]<h2 id="collection-title" class="text-4xl font-bold tracking-tight">הנבחרים שלנו [cite: 35]</h2>
+            <h2 id="collection-title" class="text-4xl font-bold tracking-tight">הנבחרים שלנו</h2>
             <div class="flex items-center gap-4">
-                [cite_start]<span class="text-sm font-semibold text-gray-400">סנן לפי מחיר: [cite: 35]</span>
+                <span class="text-sm font-semibold text-gray-400">סנן לפי מחיר:</span>
                 <select id="sort-select" class="bg-gray-100 rounded-full px-4 py-2 text-sm font-bold outline-none cursor-pointer" onchange="sortProducts()">
-                    [cite_start]<option value="default">ברירת מחדל [cite: 35]</option>
-                    [cite_start]<option value="low-high">מהזול ליקר [cite: 36]</option>
-                    [cite_start]<option value="high-low">מהיקר לזול [cite: 36]</option>
+                    <option value="default">ברירת מחדל</option>
+                    <option value="low-high">מהזול ליקר</option>
+                    <option value="high-low">מהיקר לזול</option>
                 </select>
             </div>
         </div>
@@ -75,22 +75,21 @@
     <div id="cart-overlay" class="fixed inset-0 bg-black/40 backdrop-blur-md z-[110] hidden opacity-0 transition-opacity duration-500"></div>
     <div id="cart-drawer" class="cart-drawer fixed top-0 right-0 h-full w-full max-w-md bg-white z-[120] shadow-2xl flex flex-col">
         <div class="p-10 flex justify-between items-center">
-            [cite_start]<h2 class="text-3xl font-bold">הסל שלך [cite: 38]</h2>
+            <h2 class="text-3xl font-bold">הסל שלך</h2>
             <button id="close-cart" class="w-10 h-10 flex items-center justify-center bg-gray-100 rounded-full hover:rotate-90 transition-transform duration-300">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
             </button>
         </div>
         
-        <div id="cart-items" class="flex-1 overflow-y-auto px-10 space-y-8">
-            </div>
+        <div id="cart-items" class="flex-1 overflow-y-auto px-10 space-y-8"></div>
 
         <div class="p-10 bg-gray-50/50 rounded-t-[40px]">
             <div class="flex justify-between items-center mb-8">
-                [cite_start]<span class="text-gray-400 font-semibold">סה"כ לתשלום [cite: 39]</span>
-                [cite_start]<span id="cart-total" class="text-3xl font-black text-blue-600">₪0.00 [cite: 39]</span>
+                <span class="text-gray-400 font-semibold">סה"כ לתשלום</span>
+                <span id="cart-total" class="text-3xl font-black text-blue-600">₪0.00</span>
             </div>
             <button class="action-btn w-full text-white py-6 rounded-[24px] font-bold text-xl shadow-xl shadow-blue-100" onclick="checkout()">
-                [cite_start]שלם עכשיו [cite: 40]
+                שלם עכשיו
             </button>
         </div>
     </div>
@@ -99,7 +98,7 @@
         <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
         </div>
-        [cite_start]<span class="font-bold">המוצר נוסף בהצלחה [cite: 41]</span>
+        <span class="font-bold">המוצר נוסף בהצלחה</span>
     </div>
 
     <script src="script.js"></script>
