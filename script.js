@@ -12,14 +12,14 @@ const products = [
     { id: 13, name: "Lunar Sparkle Set", price: 210, category: "kids", image: "https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?q=80&w=600" },
     { id: 3, name: "Cyber Leather Bag", price: 850, category: "accessories", image: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?q=80&w=600" },
     { id: 6, name: "Ultra Vision Shades", price: 990, category: "accessories", image: "https://images.unsplash.com/photo-1511499767350-a1590fdb2863?q=80&w=600" }
-[cite_start]]; [cite: 42, 43, 44, 45]
+];
 
-[cite_start]let cart = []; [cite: 46]
-[cite_start]let filteredProducts = [...products]; [cite: 46]
-[cite_start]let currentCategory = 'all'; [cite: 46]
+let cart = [];
+let filteredProducts = [...products];
+let currentCategory = 'all';
 
 function renderProducts() {
-    [cite_start]const grid = document.getElementById('product-grid'); [cite: 47]
+    const grid = document.getElementById('product-grid');
     grid.innerHTML = filteredProducts.map((p, i) => `
         <div class="product-card" style="transition-delay: ${i * 80}ms">
             <div class="img-container aspect-[4/5] bg-gray-50">
@@ -40,55 +40,52 @@ function renderProducts() {
                 </div>
             </div>
         </div>
-    [cite_start]`).join(''); [cite: 48, 49, 50, 51, 52, 53]
+    `).join('');
 
     const obs = new IntersectionObserver((es) => {
         es.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
-    [cite_start]}, { threshold: 0.1 }); [cite: 54]
-    [cite_start]document.querySelectorAll('.product-card').forEach(c => obs.observe(c)); [cite: 55]
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.product-card').forEach(c => obs.observe(c));
 }
 
 function filterCategory(cat) {
-    [cite_start]currentCategory = cat; [cite: 55]
-    filteredProducts = cat === 'all' ? [cite_start][...products] : products.filter(p => p.category === cat); [cite: 56]
-    
+    currentCategory = cat;
+    filteredProducts = cat === 'all' ? [...products] : products.filter(p => p.category === cat);
     const titles = {
         'all': 'הנבחרים שלנו',
         'men': 'קולקציית גברים',
         'women': 'קולקציית נשים',
         'kids': 'קולקציית ילדים',
         'accessories': 'אביזרים ומשלימים'
-    [cite_start]}; [cite: 57, 58]
-    [cite_start]document.getElementById('collection-title').innerText = titles[cat] || titles['all']; [cite: 59]
-    
-    [cite_start]renderProducts(); [cite: 59]
-    [cite_start]window.scrollTo({ top: document.querySelector('main').offsetTop - 100, behavior: 'smooth' }); [cite: 59]
+    };
+    document.getElementById('collection-title').innerText = titles[cat] || titles['all'];
+    renderProducts();
+    window.scrollTo({ top: document.querySelector('main').offsetTop - 100, behavior: 'smooth' });
 }
 
 function sortProducts() {
-    [cite_start]const v = document.getElementById('sort-select').value; [cite: 60]
-    [cite_start]if (v === 'low-high') filteredProducts.sort((a,b) => a.price - b.price); [cite: 61]
-    [cite_start]if (v === 'high-low') filteredProducts.sort((a,b) => b.price - a.price); [cite: 61]
-    [cite_start]renderProducts(); [cite: 61]
+    const v = document.getElementById('sort-select').value;
+    if (v === 'low-high') filteredProducts.sort((a,b) => a.price - b.price);
+    if (v === 'high-low') filteredProducts.sort((a,b) => b.price - a.price);
+    renderProducts();
 }
 
 function addToCart(id) {
-    [cite_start]const p = products.find(x => x.id === id); [cite: 62]
-    [cite_start]const item = cart.find(x => x.id === id); [cite: 63]
-    [cite_start]if(item) item.qty++; else cart.push({...p, qty: 1}); [cite: 63]
-    [cite_start]updateUI(); [cite: 63]
-    [cite_start]showToast(); [cite: 63]
+    const p = products.find(x => x.id === id);
+    const item = cart.find(x => x.id === id);
+    if(item) item.qty++; else cart.push({...p, qty: 1});
+    updateUI();
+    showToast();
 }
 
 function updateUI() {
-    [cite_start]const count = cart.reduce((s, i) => s + i.qty, 0); [cite: 64]
-    [cite_start]const total = cart.reduce((s, i) => s + (i.price * i.qty), 0); [cite: 65]
-    [cite_start]document.getElementById('cart-count').innerText = count; [cite: 65]
-    [cite_start]document.getElementById('cart-total').innerText = `₪${total.toLocaleString()}`; [cite: 65]
-    
-    [cite_start]const container = document.getElementById('cart-items'); [cite: 66]
+    const count = cart.reduce((s, i) => s + i.qty, 0);
+    const total = cart.reduce((s, i) => s + (i.price * i.qty), 0);
+    document.getElementById('cart-count').innerText = count;
+    document.getElementById('cart-total').innerText = `₪${total.toLocaleString()}`;
+    const container = document.getElementById('cart-items');
     if (cart.length === 0) {
-        [cite_start]container.innerHTML = `<div class="text-center py-20 opacity-20"><p>הסל ריק</p></div>`; [cite: 67]
+        container.innerHTML = `<div class="text-center py-20 opacity-20"><p>הסל ריק</p></div>`;
     } else {
         container.innerHTML = cart.map(i => `
             <div class="flex gap-6 items-center">
@@ -100,49 +97,48 @@ function updateUI() {
                 </div>
                 <button onclick="removeFromCart(${i.id})" class="text-gray-300 hover:text-red-500 transition">מחק</button>
             </div>
-        [cite_start]`).join(''); [cite: 68, 69, 70, 71]
+        `).join('');
     }
 }
 
 function removeFromCart(id) {
-    [cite_start]cart = cart.filter(i => i.id !== id); [cite: 71]
-    [cite_start]updateUI(); [cite: 72]
+    cart = cart.filter(i => i.id !== id);
+    updateUI();
 }
 
 function toggleCart() {
-    [cite_start]const d = document.getElementById('cart-drawer'); [cite: 72]
-    [cite_start]const o = document.getElementById('cart-overlay'); [cite: 73]
+    const d = document.getElementById('cart-drawer');
+    const o = document.getElementById('cart-overlay');
     if (d.style.transform === 'translateX(0px)') {
-        [cite_start]d.style.transform = 'translateX(100%)'; [cite: 73]
-        [cite_start]o.style.opacity = '0'; [cite: 74]
-        [cite_start]setTimeout(() => o.classList.add('hidden'), 500); [cite: 74]
+        d.style.transform = 'translateX(100%)';
+        o.style.opacity = '0';
+        setTimeout(() => o.classList.add('hidden'), 500);
     } else {
-        [cite_start]o.classList.remove('hidden'); [cite: 74]
-        [cite_start]setTimeout(() => o.style.opacity = '1', 10); [cite: 75]
-        [cite_start]d.style.transform = 'translateX(0px)'; [cite: 75]
+        o.classList.remove('hidden');
+        setTimeout(() => o.style.opacity = '1', 10);
+        d.style.transform = 'translateX(0px)';
     }
 }
 
 function showToast() {
-    [cite_start]const t = document.getElementById('toast'); [cite: 75]
-    [cite_start]t.style.opacity = '1'; [cite: 76]
-    [cite_start]t.style.transform = 'translate(-50%, 0)'; [cite: 76]
+    const t = document.getElementById('toast');
+    t.style.opacity = '1';
+    t.style.transform = 'translate(-50%, 0)';
     setTimeout(() => {
-        [cite_start]t.style.opacity = '0'; [cite: 76]
-        [cite_start]t.style.transform = 'translate(-50%, -100px)'; [cite: 76]
-    [cite_start]}, 2500); [cite: 77]
+        t.style.opacity = '0';
+        t.style.transform = 'translate(-50%, -100px)';
+    }, 2500);
 }
 
 function checkout() {
-    [cite_start]if (cart.length === 0) return; [cite: 77]
-    [cite_start]alert("הזמנת ה-Galaxy Fashion שלך בדרך!"); [cite: 78]
-    [cite_start]cart = []; [cite: 78]
-    [cite_start]updateUI(); [cite: 78]
-    [cite_start]toggleCart(); [cite: 78]
+    if (cart.length === 0) return;
+    alert("הזמנת ה-Galaxy Fashion שלך בדרך!");
+    cart = [];
+    updateUI();
+    toggleCart();
 }
 
-// Initialization
-[cite_start]document.getElementById('cart-btn').onclick = toggleCart; [cite: 79]
-[cite_start]document.getElementById('close-cart').onclick = toggleCart; [cite: 80]
-[cite_start]document.getElementById('cart-overlay').onclick = toggleCart; [cite: 80]
-[cite_start]renderProducts(); [cite: 80]
+document.getElementById('cart-btn').onclick = toggleCart;
+document.getElementById('close-cart').onclick = toggleCart;
+document.getElementById('cart-overlay').onclick = toggleCart;
+renderProducts();
